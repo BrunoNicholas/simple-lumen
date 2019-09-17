@@ -16,6 +16,17 @@ $router->get('/', function () use ($router) {
     // return 'Me and I';
 });
 
+// logging in a user for a token
 $router->post('/login', 'AuthController@postLogin');
-
+// registering a new user
 $router->post('/user/register', 'AuthController@postRegister');
+
+$router->group(['middleware' => 'auth', 'prefix' => 'api/v1'], function($router){
+	$router->get('/system/users', 'UserController@index');
+	$router->get('/system/users/{id}', 'UserController@show');
+});
+
+$router->group(['middleware' => 'auth', 'prefix' => 'api/v1'], function($router){
+	// 
+});
+

@@ -45,8 +45,6 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $error= "User not found!";
-        
-        // echo "It is working ...";
 
         if (!$user) {
             return response()->json(compact('error'), Response::HTTP_NOT_FOUND);

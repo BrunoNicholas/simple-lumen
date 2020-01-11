@@ -21,7 +21,10 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-$app->withFacades();
+$app->withFacades(true,
+	[
+		Zizaco\Entrust\EntrustFacade::class => 'Entrust',
+    ]);
 
 $app->withEloquent();
 
@@ -63,6 +66,10 @@ $app->singleton(
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    // permissions and roles
+    'role' => \Zizaco\Entrust\Middleware\EntrustRole::class,
+    'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
+    'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
 ]);
 
 /*
@@ -79,6 +86,9 @@ $app->routeMiddleware([
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+
+// Register Service providers for Entrust
+$app->register(Zizaco\Entrust\EntrustServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
